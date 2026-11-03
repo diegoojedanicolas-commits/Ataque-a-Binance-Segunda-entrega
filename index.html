@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Así se cometió el mayor robo cripto de la historia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c8102e;--red2:#ff3b52;--bg:#ffffff;--panel:#f6f7f9;--panel2:#eef0f3;--line:#d9dce3;--tx:#14171f;--mut:#5b6472;--ok:#14a36b}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55;overflow-x:hidden;
+background-image:linear-gradient(rgba(0,0,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.045) 1px,transparent 1px);background-size:44px 44px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+.topbar{background:var(--red);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:9px 0}
+.hero{padding:56px 0 36px;position:relative}
+.kicker{color:var(--red2);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+h1{font-size:clamp(32px,6.5vw,62px);line-height:1.05;font-weight:900;margin:12px 0 16px;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--red2)}
+.lead{color:var(--mut);font-size:clamp(16px,2.2vw,19px);max-width:640px}
+.big{margin-top:28px;display:inline-block;border:1px solid var(--red);background:rgba(200,16,46,.12);padding:16px 22px;border-radius:12px;box-shadow:0 0 40px rgba(200,16,46,.25)}
+.big b{display:block;font-size:clamp(34px,8vw,64px);font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums}
+.big span{color:var(--mut);font-size:13px}
+.scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red2),transparent);top:0;animation:scan 5s linear infinite;opacity:.5}
+@keyframes scan{to{top:100%}}
+section{padding:40px 0}
+h2{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-.01em;margin-bottom:8px}
+h2::before{content:"";display:block;width:44px;height:5px;background:var(--red);margin-bottom:14px}
+.sub{color:var(--mut);max-width:680px;margin-bottom:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.stat b{font-size:34px;font-weight:900;color:var(--red2);display:block;font-variant-numeric:tabular-nums}
+.stat span{color:var(--mut);font-size:14px}
+.reveal{opacity:0;transform:translateY(22px);transition:all .7s ease}
+.reveal.in{opacity:1;transform:none}
+/* stepper */
+.stage{background:#f1f3f6;border:1px solid var(--line);border-radius:14px;padding:8px}
+svg{width:100%;height:auto;display:block}
+.edge{stroke:var(--line);stroke-width:3;fill:none;opacity:.35;transition:all .4s}
+.edge.done{stroke:var(--red);opacity:.55}
+.edge.on{stroke:var(--red2);opacity:1;stroke-dasharray:8 8;animation:flow .8s linear infinite;filter:drop-shadow(0 0 4px var(--red2))}
+@keyframes flow{to{stroke-dashoffset:-16}}
+.node circle{fill:var(--panel2);stroke:var(--line);stroke-width:3;transition:all .4s}
+.node.hit circle{stroke:var(--red2);fill:#fde8ec}
+.node.hit{animation:none}
+.node.pulse circle{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{stroke-width:9;stroke:#14171f}}
+.node text.ic{font-size:26px;text-anchor:middle;dominant-baseline:central}
+.node text.lb{font-size:13px;font-weight:700;text-anchor:middle;fill:var(--tx)}
+.node text.lb2{font-size:11px;text-anchor:middle;fill:var(--mut)}
+.key{opacity:0;transition:.4s;font-size:22px}.key.show{opacity:1}
+.coin{fill:#ffc531;opacity:0}.coins.show .coin{opacity:1}
+.sbody{margin-top:14px}
+.date{display:inline-block;background:var(--red);font-weight:700;font-size:12px;letter-spacing:.08em;padding:3px 10px;border-radius:99px;text-transform:uppercase}
+.sbody h3{font-size:22px;margin:10px 0 6px;font-weight:900}
+.sbody p{color:#2b3140}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:#fde8ec;border:1px solid var(--red);padding:5px 10px;border-radius:8px;font-size:13px;font-weight:700;animation:pop .5s both}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.ctrl{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--tx);padding:10px 16px;border-radius:10px;transition:.2s}
+button:hover{border-color:var(--red2)}
+button.pri{background:var(--red);border-color:var(--red)}
+.dots{display:flex;gap:6px;margin-left:auto}
+.dots i{width:26px;height:6px;border-radius:3px;background:var(--line);cursor:pointer;transition:.3s}
+.dots i.on{background:var(--red2)}.dots i.past{background:var(--red)}
+/* concepts */
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.seg{display:flex;gap:6px;margin:10px 0}
+.seg button.act{background:var(--red);border-color:var(--red)}
+.wal{height:auto;position:relative;background:#f1f3f6;border-radius:10px;overflow:hidden;margin-top:6px}
+.wal .net{position:absolute;left:10px;top:12px;font-size:12px;color:var(--mut)}
+.wal .box{position:absolute;right:18px;top:26px;font-size:44px}
+.wal .link{position:absolute;left:70px;right:90px;top:52px;height:3px;background:repeating-linear-gradient(90deg,var(--red2) 0 8px,transparent 8px 16px);animation:flow2 .6s linear infinite;transition:opacity .4s}
+@keyframes flow2{to{background-position:16px 0}}
+.wal.cold .link{opacity:0}
+.wal .hk{position:absolute;left:14px;top:34px;font-size:34px;transition:.4s}
+.wal.cold .hk{transform:translateX(-4px);filter:grayscale(1);opacity:.5}
+.wal .msg{position:relative;padding:96px 12px 12px;font-size:13px;color:#2b3140}
+/* bars */
+.row{margin:14px 0}
+.row .t{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px}
+.bar{height:22px;background:#f1f3f6;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red2));border-radius:6px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.rings{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.ring{text-align:center;width:170px}
+.ring svg{width:150px;height:150px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:14}
+.ring .bg{stroke:var(--line)}.ring .fg{stroke-linecap:round;stroke-dasharray:314;stroke-dashoffset:314;transition:stroke-dashoffset 1.6s ease}
+.ring b{display:block;font-size:26px;font-weight:900;margin-top:-92px;position:relative;transform:none}
+.ring span{display:block;margin-top:54px;font-size:13px;color:var(--mut)}
+.chain{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;justify-content:center}
+.chain div{flex:1 1 150px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.chain b{display:block;color:var(--red2)}
+.chain .ar{flex:0 0 auto;border:0;background:none;padding:0;align-self:center;font-size:24px;color:var(--red2)}
+/* checklist & quiz */
+.ck{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;background:var(--panel)}
+.ck input{accent-color:var(--red);width:20px;height:20px;margin-top:3px}
+.ck.d{border-color:var(--ok);background:rgba(61,220,151,.07)}
+.ck b{display:block}.ck span{color:var(--mut);font-size:14px}
+.prog{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:10px 0 16px}.prog i{display:block;height:100%;width:0;background:var(--ok);transition:.4s}
+.qa{margin-bottom:18px}.qa p{font-weight:700;margin-bottom:8px}
+.qa button{display:block;width:100%;text-align:left;margin-bottom:6px}
+.qa button.ok{border-color:var(--ok);background:rgba(61,220,151,.12)}.qa button.no{border-color:var(--red2);background:rgba(200,16,46,.2)}
+.fb{font-size:14px;color:var(--mut);min-height:20px}
+footer{border-top:1px solid var(--line);padding:26px 0 50px;color:var(--mut);font-size:13px;margin-top:20px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+button.pri,.seg button.act,.date,.topbar{color:#fff}.big{background:rgba(200,16,46,.06);box-shadow:0 8px 30px rgba(200,16,46,.15)}.card{box-shadow:0 1px 3px rgba(0,0,0,.06)}.edge{opacity:.7}svg.ico{display:inline-block;width:22px;height:22px;vertical-align:-5px;margin-right:8px}.two .wide{grid-column:1/-1}.soc{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:16px}.soc>div{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px}.soc .n{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-style:normal;font-weight:900;align-items:center;justify-content:center;margin-bottom:8px}.soc b{display:block;font-size:16px;margin-bottom:4px}.soc span{color:var(--mut);font-size:14px}</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">Infografía interactiva · Ciberseguridad</div></div>
+
+<header class="hero"><div class="scan"></div>
+<div class="wrap">
+  <div class="kicker">Ciberataque · Binance · Octubre de 2026</div>
+  <h1>Cómo robaron <em>USD 6.300 millones</em> sin forzar ninguna puerta</h1>
+  <p class="lead">Un falso reclutador, una “tarea” de entrevista y una llave olvidada en un computador. Así se armó, paso a paso, el mayor robo de criptomonedas de la historia.</p>
+  <div class="big"><b data-count="6300" data-pre="USD " data-suf=" millones">0</b><span>Extraídos de la plataforma de intercambio de criptomonedas más grande.</span></div>
+</div></header>
+
+<main class="wrap">
+
+<section class="reveal">
+  <h2>Las cifras en un vistazo</h2>
+  <div class="grid">
+    <div class="card stat"><b data-count="57">0</b><span>Amenazas ligadas a Corea del Norte que Binance detectó y frenó en 2026, antes de este ataque.</span></div>
+    <div class="card stat"><b data-count="4" data-suf=" meses">0</b><span>Tiempo entre el primer contacto (junio) y el robo (29 de octubre).</span></div>
+    <div class="card stat"><b data-count="1" data-suf=" hora">0</b><span>Tiempo aproximado entre el inicio de sesión del atacante (5 p. m.) y el saqueo de billeteras (6 p. m.).</span></div>
+    <div class="card stat"><b data-count="98" data-suf=" %">0</b><span>Activos afectados ya repuestos por Binance al 31 de octubre.</span></div>
+  </div>
+</section>
+
+<section class="reveal" id="paso">
+  <h2>El ataque, paso a paso</h2>
+  <p class="sub">Toca “Siguiente” o “Reproducir” y mira cómo avanzan los atacantes. Cada flecha roja es un movimiento del ataque; cada círculo rojo, un equipo ya controlado.</p>
+  <div class="stage">
+    <svg viewBox="0 -85 720 520" role="img" aria-label="Diagrama del ataque">
+      <path id="e9" d="M590 70 Q 350 -230 95 160" fill="none"/>
+      <path class="edge" id="e1" d="M95 198 L205 282"/>
+      <path class="edge" id="e2" d="M95 165 L205 88"/>
+      <path class="edge" id="e4" d="M255 88 L365 165"/>
+      <path class="edge" id="e5" d="M365 198 L255 282"/>
+      <path class="edge" id="e6" d="M415 198 L525 282"/>
+      <path class="edge" id="e7" d="M70 212 C 70 430, 400 430, 520 305"/>
+      <path class="edge" id="e8" d="M565 275 Q 650 200 620 108"/>
+      <path class="edge" id="e9v" d="M590 70 Q 350 -230 95 160"/>
+      <g class="node" id="ATK" transform="translate(70,180)"><circle r="30"/><g class="ic"><path d="M-12 14 V5 Q-12 -14 0 -14 Q12 -14 12 5 V14 Z" fill="#14171f"/><ellipse cx="0" cy="-1" rx="6.5" ry="7.5" fill="#c8102e"/><circle cx="-2.6" cy="-2" r="1.5" fill="#fff"/><circle cx="2.6" cy="-2" r="1.5" fill="#fff"/></g><text class="lb" y="-56">Atacantes</text><text class="lb2" y="-41">Corea del Norte</text></g>
+      <g class="node" id="B" transform="translate(230,70)"><circle r="30"/><g class="ic" stroke-linecap="round"><circle cx="0" cy="-7" r="5.5" fill="#14171f"/><path d="M-11 13 Q-11 0 0 0 Q11 0 11 13 Z" fill="#14171f"/><rect x="-6" y="5" width="12" height="2.4" rx="1" fill="#c8102e"/></g><text class="lb" y="52">Ingeniero B</text></g>
+      <g class="node" id="IA" transform="translate(390,180)"><circle r="30"/><g class="ic" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linecap="round"><rect x="-10" y="-10" width="20" height="20" rx="3"/><rect x="-4" y="-4" width="8" height="8" rx="1" fill="#c8102e" stroke="#c8102e"/><path d="M-14 -5H-10M-14 5H-10M14 -5H10M14 5H10M-5 -14V-10M5 -14V-10M-5 14V10M5 14V10"/></g><text class="lb" y="48">IA interna</text><text class="lb2" y="63">de Binance</text></g>
+      <g class="node" id="A" transform="translate(230,300)"><circle r="30"/><g class="ic" stroke-linecap="round"><circle cx="0" cy="-7" r="5.5" fill="#14171f"/><path d="M-11 13 Q-11 0 0 0 Q11 0 11 13 Z" fill="#14171f"/><rect x="-6" y="5" width="12" height="2.4" rx="1" fill="#c8102e"/></g><text class="lb" y="48">Ingeniero A</text><g class="key" id="key" transform="translate(-50,22)"><circle cx="0" cy="0" r="5" fill="none" stroke="#c8102e" stroke-width="2.6"/><path d="M5 0H19M14 0V5M18.5 0V4" stroke="#c8102e" stroke-width="2.6" stroke-linecap="round" fill="none"/></g></g>
+      <g class="node" id="C" transform="translate(550,300)"><circle r="30"/><g class="ic" stroke-linecap="round"><circle cx="0" cy="-7" r="5.5" fill="#14171f"/><path d="M-11 13 Q-11 0 0 0 Q11 0 11 13 Z" fill="#14171f"/><rect x="-6" y="5" width="12" height="2.4" rx="1" fill="#c8102e"/></g><text class="lb" y="48">Ingeniero C</text></g>
+      <g class="node" id="HW" transform="translate(620,80)"><circle r="30"/><g class="ic" fill="#14171f"><path d="M-14 -4 L0 -14 L14 -4 Z"/><rect x="-10" y="-1" width="3.5" height="11"/><rect x="-1.75" y="-1" width="3.5" height="11"/><rect x="6.5" y="-1" width="3.5" height="11"/><rect x="-13" y="11" width="26" height="3" rx="1"/><circle cx="0" cy="-6" r="2" fill="#fff"/></g><text class="lb" y="-56">Billeteras</text><text class="lb" y="-41">calientes</text></g>
+      <g class="coins" id="coins">
+        <circle class="coin" r="7"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#e9"/></animateMotion></circle>
+        <circle class="coin" r="7"><animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite"><mpath href="#e9"/></animateMotion></circle>
+        <circle class="coin" r="7"><animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite"><mpath href="#e9"/></animateMotion></circle>
+      </g>
+    </svg>
+  </div>
+  <div class="sbody card" id="sbody" aria-live="polite"></div>
+  <div class="ctrl">
+    <button id="prev">← Anterior</button>
+    <button id="next" class="pri">Siguiente →</button>
+    <button id="play">Reproducir</button>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Tres ideas para entender el ataque</h2>
+  <div class="two">
+    <div class="card">
+      <h3>Billetera “caliente” vs. “fría”</h3>
+      <p class="sub" style="margin:6px 0">Es como la caja registradora y la caja fuerte de una tienda.</p>
+      <div class="seg"><button class="act" data-w="hot">Caliente</button><button data-w="cold">Fría</button></div>
+      <div class="wal" id="wal"><span class="net">Internet</span><span class="hk"><svg viewBox="-16 -16 32 32" style="width:40px;height:40px"><path d="M-12 14 V5 Q-12 -14 0 -14 Q12 -14 12 5 V14 Z" fill="#14171f"/><ellipse cx="0" cy="-1" rx="6.5" ry="7.5" fill="#c8102e"/><circle cx="-2.6" cy="-2" r="1.5" fill="#fff"/><circle cx="2.6" cy="-2" r="1.5" fill="#fff"/></svg></span><div class="link"></div><span class="box"><svg viewBox="-16 -16 32 32" style="width:52px;height:52px" fill="#14171f"><path d="M-14 -4 L0 -14 L14 -4 Z"/><rect x="-10" y="-1" width="3.5" height="11"/><rect x="-1.75" y="-1" width="3.5" height="11"/><rect x="6.5" y="-1" width="3.5" height="11"/><rect x="-13" y="11" width="26" height="3" rx="1"/><circle cx="0" cy="-6" r="2" fill="#fff"/></svg></span><div class="msg" id="walmsg">Conectada a internet: es práctica para mover dinero rápido, pero los atacantes pueden alcanzarla.</div></div>
+    </div>
+    <div class="card">
+      <h3>El truco del permiso parcial (EIP-7702)</h3>
+      <p class="sub" style="margin:6px 0">Ethereum permite que una billetera autorice a un programa a actuar en su nombre, <b>sin entregar su clave privada</b>.</p>
+      <div class="seg"><button class="act" data-p="ok">Uso legítimo</button><button data-p="bad">Uso del ataque</button></div>
+      <div class="wal" id="eip"><div class="msg" id="eipmsg" style="padding-top:14px;font-size:14px">Como dejarle a un mensajero la llave de un solo cajón para que haga una tarea concreta, sin darle las llaves de toda la casa.</div></div>
+    </div>
+    <div class="card wide">
+      <h3>Ingeniería social</h3>
+      <p class="sub" style="margin:6px 0 0">Es engañar a una persona, y no a una máquina, para que ella misma abra la puerta. Así lo hicieron en tres pasos:</p>
+      <div class="soc">
+        <div><i class="n">1</i><b>Investigan</b><span>Buscan en plataformas de empleo quién trabaja en Binance y qué hace. Aquí, el perfil público del Ingeniero B.</span></div>
+        <div><i class="n">2</i><b>Ganan confianza</b><span>Se hacen pasar por un reclutador y luego por un CEO, y muestran redes sociales con fotos y videos para parecer reales.</span></div>
+        <div><i class="n">3</i><b>Piden una acción</b><span>Le piden descargar una “tarea” de la entrevista. Al abrirla, el código malicioso se instala.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal" id="barras">
+  <h2>¿Qué tan grande fue?</h2>
+  <p class="sub">Comparación con otros golpes atribuidos a los mismos grupos (cifras en millones de USD).</p>
+  <div class="card">
+    <div class="row"><div class="t"><b>Binance (2026)</b><span>6.300</span></div><div class="bar"><i data-w="100"></i></div></div>
+    <div class="row"><div class="t"><b>Bybit</b><span>1.500 · el mayor hasta entonces</span></div><div class="bar"><i data-w="23.8"></i></div></div>
+    <div class="row"><div class="t"><b>Banco central de Bangladesh (2016)</b><span>1.000 · intento de robo</span></div><div class="bar"><i data-w="15.9"></i></div></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>¿Quién está detrás?</h2>
+  <p class="sub">Las firmas de seguridad apuntan a un grupo norcoreano. Aún no hay confirmación oficial de las autoridades.</p>
+  <div class="chain">
+    <div><b>Corea del Norte</b>Régimen sancionado que busca financiar programas estatales.</div><div class="ar">→</div>
+    <div><b>Lazarus</b>Organización “sombrilla” (Kaspersky).</div><div class="ar">→</div>
+    <div><b>TraderTraitor</b>Unidad de élite que roba bitcoin y ether (TRM Labs, Elliptic).</div>
+  </div>
+</section>
+
+<section class="reveal" id="rec">
+  <h2>¿Qué pasará con el dinero?</h2>
+  <p class="sub">Binance asegura que asumirá la pérdida y que ya reservó el 100 % de los fondos necesarios.</p>
+  <div class="card"><div class="rings">
+    <div class="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="50"/><circle class="fg" data-p="98" stroke="#14a36b" cx="60" cy="60" r="50"/></svg><b data-count="98" data-suf=" %">0</b><span>Activos ya repuestos.</span></div>
+    <div class="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="50"/><circle class="fg" data-p="47.6" stroke="#0aa5b8" cx="60" cy="60" r="50"/></svg><b data-count="3000" data-pre="~" data-suf=" M">0</b><span>USD congelados (cerca de la mitad de lo robado).</span></div>
+  </div></div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card"><svg class="ico" viewBox="-12 -12 24 24" fill="none" stroke="#c8102e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-10 -8H10V8H-10Z M-10 0H10 M-3 -8V0 M4 0V8 M-4 0V8"/></svg>Reconstruyó el sistema de billeteras y la herramienta de IA afectada.</div>
+    <div class="card"><svg class="ico" viewBox="-12 -12 24 24" fill="none" stroke="#c8102e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="-8" y="-7" width="16" height="11" rx="1.5"/><path d="M-11 8H11"/></svg>Reemplazó equipos y desactivó credenciales de los ingenieros.</div>
+    <div class="card"><svg class="ico" viewBox="-12 -12 24 24" fill="none" stroke="#c8102e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="-6" y="-6" width="12" height="12" rx="2"/><path d="M-10 -3H-6M-10 3H-6M10 -3H6M10 3H6M-3 -10V-6M3 -10V-6M-3 10V6M3 10V6"/></svg>Mejoró la detección de comportamientos anómalos con IA.</div>
+    <div class="card"><svg class="ico" viewBox="-12 -12 24 24" fill="none" stroke="#c8102e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="-2" cy="-2" r="7"/><path d="M3 3L10 10"/></svg>Contrató una revisión de ciberseguridad independiente y creó un fondo de investigación.</div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Lo que deja este caso</h2>
+  <div class="grid">
+    <div class="card"><b style="color:var(--red2)">1 · Nadie está a salvo</b><br><span class="sub">Ningún sector escapa de un ataque; cambia el nivel de exposición.</span></div>
+    <div class="card"><b style="color:var(--red2)">2 · El factor humano</b><br><span class="sub">Un empleado engañado puede ser la puerta de entrada. Capacitar es clave.</span></div>
+    <div class="card"><b style="color:var(--red2)">3 · Prepararse</b><br><span class="sub">Protocolos, billeteras frías y un fondo de reserva limitaron el daño.</span></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Si eres cliente de Binance, haz esto</h2>
+  <p class="sub">Recomendaciones de ESET. Marca las que ya cumpliste.</p>
+  <div class="prog"><i id="pg"></i></div>
+  <label class="ck"><input type="checkbox"><div><b>Sigue solo los canales oficiales</b><span>Sitio web, app y perfiles verificados del exchange.</span></div></label>
+  <label class="ck"><input type="checkbox"><div><b>Desconfía de mensajes sobre reembolsos</b><span>No abras enlaces de correo, SMS o mensajería sin verificar.</span></div></label>
+  <label class="ck"><input type="checkbox"><div><b>No compartas contraseñas, códigos ni frases semilla</b><span>Ni siquiera si parece venir del soporte.</span></div></label>
+  <label class="ck"><input type="checkbox"><div><b>Revisa la seguridad de tu cuenta</b><span>Activa la autenticación en dos factores y revisa tus direcciones de retiro autorizadas.</span></div></label>
+</section>
+
+<section class="reveal">
+  <h2>Ponte a prueba</h2>
+  <div class="card" id="quiz"></div>
+</section>
+
+</main>
+<footer><div class="wrap">Fuentes: reporte de Binance sobre el incidente (hallazgos preliminares), Wiz, TRM Labs, Elliptic, Kaspersky (GReAT) y ESET. Los nombres “Ingeniero A, B y C” son designaciones del relato; los atacantes aún no han sido identificados oficialmente por las autoridades.</div></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* ---- paso a paso ---- */
+const steps=[
+{d:"Junio de 2026",t:"Un programa que parecía inofensivo",p:"Un ingeniero del equipo que cuida las billeteras (Ingeniero A) descarga un programa para instalar una herramienta de programación. Traía código malicioso. Binance lo detectó, cambió el equipo y renovó las credenciales… pero los atacantes ya sabían quién trabajaba en qué dentro del equipo.",e:["e1"],n:["A"]},
+{d:"Septiembre",t:"Una oferta de trabajo que no existía",p:"Por una plataforma legítima de empleo, una persona que se hacía pasar por director de proyecto contacta al Ingeniero B, que mencionaba Binance en su perfil. Luego un “reclutador” de una empresa ficticia hace una videollamada y muestra redes sociales con fotos y videos para generar confianza. Después llega una segunda ronda con un supuesto CEO.",e:["e2"],n:[]},
+{d:"Septiembre",t:"La “tarea” trampa",p:"En la segunda entrevista le piden descargar una “tarea”. Era un repositorio de código malicioso que se ejecuta al configurarlo. Reemplaza una pieza legítima de un programa de desarrollo y deja a los atacantes controlar parte del computador y comunicarse con sus servidores. Además, el código se disfraza para que los antivirus no lo noten.",e:["e2"],n:["B"]},
+{d:"20 de octubre",t:"Salto a la herramienta de IA interna",p:"Con el acceso al computador del Ingeniero B, los atacantes usan una herramienta interna de Binance basada en inteligencia artificial para tomar el control de los sistemas de los ingenieros A y C (este último también trabaja en billeteras).",e:["e4","e5","e6"],n:["B","IA","A","C"]},
+{d:"Octubre",t:"Encuentran la llave maestra",p:"En el computador del Ingeniero A había una llave digital con permisos para instalar y poner en marcha programas dentro de toda la infraestructura tecnológica de Binance. Es como encontrar la llave maestra de un edificio.",e:[],n:["A"],key:1},
+{d:"29 de octubre · ~5:00 p. m.",t:"Entran por el computador de un compañero",p:"El atacante inicia sesión en el computador del Ingeniero C, usa las credenciales robadas del Ingeniero A y despliega una serie de códigos para empezar el robo.",e:["e7"],n:["C"],key:1},
+{d:"29 de octubre · ~6:00 p. m.",t:"Las billeteras calientes se vacían",p:"Cinco hot wallets de Binance envían millones de monedas a una dirección controlada por los atacantes. Minutos después siguen otras redes y, por último, bitcoin.",e:["e8","e9v"],n:["C","HW"],key:1,coins:1,x:'<div class="chips"><span class="chip">233,46 millones de XRP</span><span class="chip" style="animation-delay:.3s">~970.500 SOL</span><span class="chip" style="animation-delay:.6s">44,2 millones de OP</span><span class="chip" style="animation-delay:.9s">18.270 BTC</span></div>'},
+{d:"Durante el saqueo",t:"El truco final: un permiso parcial",p:"Los atacantes usan el servicio de firma de Binance para explotar el mecanismo EIP-7702 de Ethereum: le dan a un programa bajo su control permisos parciales sobre una billetera caliente, sin necesitar su clave privada.",e:["e9v"],n:["C","HW"],key:1,coins:1}
+];
+let cur=0,timer=null;
+const dots=$("#dots");steps.forEach((_,i)=>{const d=document.createElement("i");d.onclick=()=>{stop();go(i)};dots.appendChild(d)});
+function go(i){cur=Math.max(0,Math.min(steps.length-1,i));const s=steps[cur];
+ const done=new Set(),hit=new Set();
+ steps.slice(0,cur).forEach(x=>x.e.forEach(e=>done.add(e)));steps.slice(0,cur+1).forEach(x=>x.n.forEach(n=>hit.add(n)));
+ $$(".edge").forEach(e=>{e.classList.remove("on","done");if(s.e.includes(e.id))e.classList.add("on");else if(done.has(e.id))e.classList.add("done")});
+ $$(".node").forEach(n=>{n.classList.toggle("hit",hit.has(n.id));n.classList.toggle("pulse",s.n.includes(n.id)&&n.id!=="ATK")});
+ $("#key").classList.toggle("show",!!s.key);$("#coins").classList.toggle("show",!!s.coins);
+ $("#sbody").innerHTML=`<span class="date">Paso ${cur+1} de ${steps.length} · ${s.d}</span><h3>${s.t}</h3><p>${s.p}</p>${s.x||""}`;
+ [...dots.children].forEach((d,k)=>d.className=k===cur?"on":k<cur?"past":"");
+ $("#prev").disabled=cur===0;$("#next").textContent=cur===steps.length-1?"Reiniciar":"Siguiente →";}
+function stop(){clearInterval(timer);timer=null;$("#play").textContent="Reproducir"}
+$("#next").onclick=()=>{stop();go(cur===steps.length-1?0:cur+1)};
+$("#prev").onclick=()=>{stop();go(cur-1)};
+$("#play").onclick=()=>{if(timer){stop();return}$("#play").textContent="Pausar";if(cur===steps.length-1)go(0);timer=setInterval(()=>{if(cur>=steps.length-1){stop();return}go(cur+1)},5500)};
+go(0);
+/* ---- conceptos ---- */
+$$("[data-w]").forEach(b=>b.onclick=()=>{$$("[data-w]").forEach(x=>x.classList.remove("act"));b.classList.add("act");const c=b.dataset.w==="cold";$("#wal").classList.toggle("cold",c);$("#walmsg").textContent=c?"Desconectada de internet: es más lenta de usar, pero los atacantes no tienen por dónde entrar.":"Conectada a internet: es práctica para mover dinero rápido, pero los atacantes pueden alcanzarla."});
+$$("[data-p]").forEach(b=>b.onclick=()=>{$$("[data-p]").forEach(x=>x.classList.remove("act"));b.classList.add("act");$("#eipmsg").textContent=b.dataset.p==="bad"?"Los atacantes se saltaron el control: usaron el servicio de firma de Binance para dar a un programa propio permiso parcial sobre una billetera caliente. Nunca necesitaron la clave privada.":"Como dejarle a un mensajero la llave de un solo cajón para que haga una tarea concreta, sin darle las llaves de toda la casa."});
+/* ---- contadores y reveal ---- */
+function count(el){if(el.dataset.done)return;el.dataset.done=1;const t=+el.dataset.count,pre=el.dataset.pre||"",suf=el.dataset.suf||"",t0=performance.now();
+ (function f(n){const k=Math.min(1,(n-t0)/1500),v=Math.round(t*(1-Math.pow(1-k,3)));el.textContent=pre+v.toLocaleString("es-CO")+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");
+ e.target.querySelectorAll("[data-count]").forEach(count);
+ e.target.querySelectorAll(".bar i").forEach(b=>b.style.width=b.dataset.w+"%");
+ e.target.querySelectorAll(".fg").forEach(c=>c.style.strokeDashoffset=314*(1-c.dataset.p/100))}}),{threshold:.2});
+$$(".reveal").forEach(r=>io.observe(r));
+$$(".hero [data-count]").forEach(count);
+/* ---- checklist ---- */
+$$(".ck input").forEach(i=>i.onchange=()=>{i.closest(".ck").classList.toggle("d",i.checked);$("#pg").style.width=$$(".ck input:checked").length/4*100+"%"});
+/* ---- quiz ---- */
+const qs=[
+{q:"¿Cómo lograron los atacantes entrar a los sistemas de Binance?",o:["Adivinando la contraseña principal.","Engañando a empleados con una falsa oferta de trabajo y código malicioso.","Rompiendo la criptografía de Bitcoin."],a:1,f:"Fue ingeniería social: una persona, no una máquina, fue el punto débil."},
+{q:"¿Qué es una billetera “caliente”?",o:["Una conectada a internet.","Una guardada en una caja fuerte sin conexión.","Una que paga intereses."],a:0,f:"Estar conectada la hace práctica, pero también más expuesta."},
+{q:"Te llega un mensaje: “Binance te devolverá tu dinero, ingresa tu frase semilla”. ¿Qué haces?",o:["La ingreso rápido para no perder el reembolso.","No la comparto y reviso solo los canales oficiales.","Reenvío el mensaje a mis amigos."],a:1,f:"Nunca compartas contraseñas, códigos ni frases semilla, aunque parezca soporte oficial."}];
+$("#quiz").innerHTML=qs.map((x,i)=>`<div class="qa" data-i="${i}"><p>${i+1}. ${x.q}</p>${x.o.map((o,j)=>`<button data-j="${j}">${o}</button>`).join("")}<div class="fb"></div></div>`).join("");
+$$(".qa").forEach(el=>el.querySelectorAll("button").forEach(b=>b.onclick=()=>{const x=qs[el.dataset.i],j=+b.dataset.j;el.querySelectorAll("button").forEach(k=>k.classList.remove("ok","no"));b.classList.add(j===x.a?"ok":"no");el.querySelector(".fb").textContent=(j===x.a?"¡Correcto! ":"Incorrecto. Intenta de nuevo. ")+(j===x.a?x.f:"")}));
+</script>
+</body>
+</html>
